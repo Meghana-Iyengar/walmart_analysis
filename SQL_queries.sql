@@ -1,8 +1,8 @@
--- Create database
+-- database created
 CREATE DATABASE IF NOT EXISTS walmartSales;
 
 
--- Create table
+-- table created
 CREATE TABLE IF NOT EXISTS sales(
 	invoice_id VARCHAR(30) NOT NULL PRIMARY KEY,
     branch VARCHAR(5) NOT NULL,
@@ -29,7 +29,7 @@ SELECT
 FROM sales;
 
 
--- Add the time_of_day column
+-- time_of_day column to be added
 SELECT
 	time,
 	(CASE
@@ -42,9 +42,7 @@ FROM sales;
 
 ALTER TABLE sales ADD COLUMN time_of_day VARCHAR(20);
 
--- For this to work turn off safe mode for update
--- Edit > Preferences > SQL Edito > scroll down and toggle safe mode
--- Reconnect to MySQL: Query > Reconnect to server
+
 UPDATE sales
 SET time_of_day = (
 	CASE
@@ -55,7 +53,7 @@ SET time_of_day = (
 );
 
 
--- Add day_name column
+-- day_name column to be added
 SELECT
 	date,
 	DAYNAME(date)
@@ -67,7 +65,7 @@ UPDATE sales
 SET day_name = DAYNAME(date);
 
 
--- Add month_name column
+-- month_name column to be added
 SELECT
 	date,
 	MONTHNAME(date)
@@ -79,7 +77,7 @@ UPDATE sales
 SET month_name = MONTHNAME(date);
 
 -- --------------------------------------------------------------------
--- ---------------------------- Generic ------------------------------
+-- ---------------------------- Generic Questions------------------------------
 -- --------------------------------------------------------------------
 -- How many unique cities does the data have?
 SELECT 
@@ -101,14 +99,6 @@ SELECT
 	DISTINCT product_line
 FROM sales;
 
-
--- What is the most selling product line
-SELECT
-	SUM(quantity) as qty,
-    product_line
-FROM sales
-GROUP BY product_line
-ORDER BY qty DESC;
 
 -- What is the most selling product line
 SELECT
@@ -164,7 +154,7 @@ ORDER BY avg_tax DESC;
 
 
 -- Fetch each product line and add a column to those product 
--- line showing "Good", "Bad". Good if its greater than average sales
+-- line showing "Good", "Bad". Good if it's greater than average sales
 
 SELECT 
 	AVG(quantity) AS avg_qnty
@@ -256,8 +246,7 @@ FROM sales
 WHERE branch = "C"
 GROUP BY gender
 ORDER BY gender_cnt DESC;
--- Gender per branch is more or less the same hence, I don't think has
--- an effect of the sales per branch and other factors.
+
 
 -- Which time of the day do customers give most ratings?
 SELECT
@@ -266,8 +255,7 @@ SELECT
 FROM sales
 GROUP BY time_of_day
 ORDER BY avg_rating DESC;
--- Looks like time of the day does not really affect the rating, its
--- more or less the same rating each time of the day.alter
+
 
 
 -- Which time of the day do customers give most ratings per branch?
@@ -278,8 +266,7 @@ FROM sales
 WHERE branch = "A"
 GROUP BY time_of_day
 ORDER BY avg_rating DESC;
--- Branch A and C are doing well in ratings, branch B needs to do a 
--- little more to get better ratings.
+
 
 
 -- Which day fo the week has the best avg ratings?
@@ -289,8 +276,6 @@ SELECT
 FROM sales
 GROUP BY day_name 
 ORDER BY avg_rating DESC;
--- Mon, Tue and Friday are the top best days for good ratings
--- why is that the case, how many sales are made on these days?
 
 
 
@@ -319,8 +304,7 @@ FROM sales
 WHERE day_name = "Sunday"
 GROUP BY time_of_day 
 ORDER BY total_sales DESC;
--- Evenings experience most sales, the stores are 
--- filled during the evening hours
+
 
 -- Which of the customer types brings the most revenue?
 SELECT
